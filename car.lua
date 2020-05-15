@@ -15,25 +15,36 @@ gpio.mode(pin4,gpio.OUTPUT)
 function lDown()
     gpio.write(pin1, gpio.LOW)
     gpio.write(pin2, gpio.HIGH)
+    print("LDOWN")
 end
 
 function lUp()
     gpio.write(pin1,gpio.HIGH)
     gpio.write(pin2,gpio.LOW)
+    print("LUP")
 end
 
 function RDown()
     gpio.write(pin3,gpio.HIGH)
     gpio.write(pin4,gpio.LOW)
+    print("RDOWN")
 end
 
 function RUp()
     gpio.write(pin3,gpio.LOW)
     gpio.write(pin4,gpio.HIGH)
+    print("RUP")
 end
 
+function Stop()
+    gpio.write(pin1,gpio.LOW)
+    gpio.write(pin2,gpio.LOW)
+    gpio.write(pin3,gpio.LOW)
+    gpio.write(pin4,gpio.LOW)
+    print("STOP")
+end
 
 
 RUp()
 tmr.delay(500 * US_TO_MS)
-
+Stop()
