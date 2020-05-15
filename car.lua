@@ -12,13 +12,13 @@ gpio.mode(pin2,gpio.OUTPUT)
 gpio.mode(pin3,gpio.OUTPUT)
 gpio.mode(pin4,gpio.OUTPUT)
 
-function lDown()
+function LDown()
     gpio.write(pin1, gpio.LOW)
     gpio.write(pin2, gpio.HIGH)
     print("LDOWN")
 end
 
-function lUp()
+function LUp()
     gpio.write(pin1,gpio.HIGH)
     gpio.write(pin2,gpio.LOW)
     print("LUP")
@@ -44,7 +44,63 @@ function Stop()
     print("STOP")
 end
 
+function Up()
+    LUp()
+    RUp()
+end
 
-RUp()
-tmr.delay(500 * US_TO_MS)
-Stop()
+function Down()
+    LDown()
+    RDown()
+end
+
+function Left()
+    LDown()
+    RUp()
+end
+
+function Right()
+    LUp()
+    RDown()
+end
+
+--RUp()
+--tmr.delay(500 * US_TO_MS)
+--Stop()
+
+function setwifi()
+    wifi.setmode(wifi.STATION)
+    wifi.sta.config("Wfhome","15980936465") -- Replace these two args with your own network
+    ip, nm, gw=wifi.sta.getip()
+    print("\nIP Info:\nIP Address: "..ip.."")
+end
+
+function setTcpServer()
+    srv=net.createServer(net.TCP)
+    srv:listen(80,function(conn)
+      conn:on("receive",function(conn,payload)
+        print(payload)
+        if payload == 'L' then
+            Left()
+        end
+        if payload == 'R' then
+            Right()
+        end
+        if payload == 'U' then
+            Up()
+        end
+        if payload == 'D' then
+            Down()
+        end  
+        tmr.delay(500 * US_TO_MS)
+        Stop()                              
+      end)
+      conn:on("sent",function(conn) conn:close() end)
+    end)
+end  
+    
+
+setwifi()
+setTcpServer()  
+
+
