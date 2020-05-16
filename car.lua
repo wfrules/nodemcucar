@@ -1,9 +1,9 @@
 print('init begin')
 ledswitch=0
-pin1=1
-pin2=2
-pin3=3
-pin4=4
+pin1=5
+pin2=6
+pin3=7
+pin4=8
 --转换为毫秒
 US_TO_MS = 1000
 ip = nil
@@ -75,7 +75,7 @@ function setwifi()
     print(ip)
     if ip ~= nil then
         print("\nIP Info:\nIP Address: "..ip.."")
-        Down()
+        Stop()
     end    
 end
 
