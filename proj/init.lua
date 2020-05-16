@@ -1,0 +1,8 @@
+require("mdebug")
+require("mwifi")
+require("mbutton")
+print('begin')
+gpio.mode(mDebug.led, gpio.OUTPUT)
+mButton.watch()
+--mWifi.conn()
+print('over')
