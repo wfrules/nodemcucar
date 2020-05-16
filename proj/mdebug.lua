@@ -2,7 +2,14 @@ mDebug = {}
 mDebug.led = 4
 function mDebug.turnLight(sig)
     if sig == true then
-        flag = 0   
+        flag = 0   require("mdebug")
+require("mwifi")
+require("mbutton")
+gpio.mode(mDebug.led, gpio.OUTPUT)
+mWifi.hold()
+--mButton.watch()
+print('over')
+
     else
         flag = 1 
     end      

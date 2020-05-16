@@ -1,4 +1,5 @@
 require("mdebug")
+require("mtcp")
 mWifi = {}
 mWifi.ip = ''
 function mWifi.reg()
@@ -41,6 +42,7 @@ end
 
 function mWifi.hold()
     bLoop = true
+    bRet = false
     iFail = 0
     while(bLoop)
     do
@@ -49,14 +51,17 @@ function mWifi.hold()
         print('connecting...'..iFail)
         bSuccess = mWifi.conn()
         if bSuccess then
+            bRet = true
             bLoop = false
-        else
+        else            
             iFail = iFail + 1
             if iFail >= 10 then
+                bRet = false
                 bLoop = false
             end    
         end    
-     end               
+     end  
+     return bRet             
 end
 
 return mWifi
