@@ -39,4 +39,24 @@ function mWifi.conn()
     end     
 end
 
+function mWifi.hold()
+    bLoop = true
+    iFail = 0
+    while(bLoop)
+    do
+        tmr.wdclr()
+        mDebug.blink()
+        print('connecting...'..iFail)
+        bSuccess = mWifi.conn()
+        if bSuccess then
+            bLoop = false
+        else
+            iFail = iFail + 1
+            if iFail >= 10 then
+                bLoop = false
+            end    
+        end    
+     end               
+end
+
 return mWifi
