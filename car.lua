@@ -1,3 +1,4 @@
+print('init begin')
 ledswitch=0
 pin1=1
 pin2=2
@@ -5,6 +6,7 @@ pin3=3
 pin4=4
 --转换为毫秒
 US_TO_MS = 1000
+ip = nil
 
 
 gpio.mode(pin1,gpio.OUTPUT)
@@ -63,48 +65,69 @@ function Right()
     print("Right")    
 end
 
---RUp()
---tmr.delay(500 * US_TO_MS)
---Stop()
-
 function setwifi()
+--    print('wait begin')
+--    tmr.delay(3000 * US_TO_MS)
+--    print('wait end')
     wifi.setmode(wifi.STATION)
     wifi.sta.config("Wfhome","15980936465") -- Replace these two args with your own network
-    ip, nm, gw=wifi.sta.getip()
-    print()
-    print("\nIP Info:\nIP Address: "..ip.."")
+    ip=wifi.sta.getip()
+    print(ip)
+    if ip ~= nil then
+        print("\nIP Info:\nIP Address: "..ip.."")
+        Down()
+    end    
 end
+
+function sendCmd(payload)      
+    if payload == 'L' then
+        Left()
+    end
+    if payload == 'R' then
+        Right()
+    end
+    if payload == 'U' then
+        Up()
+    end
+    if payload == 'D' then
+        Down()
+    end  
+    tmr.delay(500 * US_TO_MS)
+    Stop()
+end      
 
 function setTcpServer()
     srv=net.createServer(net.TCP)
     srv:listen(80,function(conn)
-      conn:on("receive",function(conn,payload)
-        print(payload)
-        if payload == 'C' then
-            conn:close()
-            print('close')
-        end        
-        if payload == 'L' then
-            Left()
+      conn:on("receive",function(client,request)
+        local buf = "";
+        local _, _, method, path, vars = string.find(request, "([A-Z]+) (.+)?(.+) HTTP");
+        if(method == nil)then
+            _, _, method, path = string.find(request, "([A-Z]+) (.+) HTTP");
         end
-        if payload == 'R' then
-            Right()
+        local _GET = {}
+        if (vars ~= nil)then
+            for k, v in string.gmatch(vars, "(%w+)=(%w+)&*") do
+                _GET[k] = v
+            end
         end
-        if payload == 'U' then
-            Up()
-        end
-        if payload == 'D' then
-            Down()
-        end  
-        tmr.delay(500 * US_TO_MS)
-        Stop()                              
+        sendCmd(_GET.pin);
+        buf = buf.."<h1> ESP8266 Web Server</h1>";
+        buf = buf.."<p>GPIO0 <a href=\"?pin=L\"><button>L</button></a><a href=\"?pin=R\"><button>R</button></a><a href=\"?pin=U\"><button>U</button></a><a href=\"?pin=D\"><button>D</button></a></p>";
+        client:send(buf);
+        client:close();
+        collectgarbage();                            
       end)
       conn:on("sent",function(conn) conn:close() end)
     end)
 end  
-    
+
 
 setwifi()
-setTcpServer()  
 
+if ip ~= nil then
+    setTcpServer()
+end      
+
+print('init end')
 
