@@ -5,6 +5,8 @@ mButton.gpio = 3
 function mButton.watch()
     gpio.mode(mButton.gpio, gpio.INPUT)
     bLoop = true
+    iFail = 0
+    print('begin watch')
     while(bLoop)
     do
         tmr.wdclr()
@@ -12,8 +14,15 @@ function mButton.watch()
         if flag == 0 then
             tmr.delay(1000 * 1000)
             mDebug.blink()
-            mWifi.conn()
-            bLoop = false
+            bSuccess = mWifi.conn()
+            if bSuccess then
+                bLoop = false
+            else
+                iFail = iFail + 1
+                if iFail >= 3 then
+                    bLoop = false
+                end    
+            end    
         end    
     end    
 end
