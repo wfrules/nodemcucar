@@ -139,7 +139,9 @@ do
         
         if ip ~= nil then
             break;
-        end        
+        end
+        else 
+                
     end
 end
 
