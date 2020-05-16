@@ -15,25 +15,21 @@ gpio.mode(pin4,gpio.OUTPUT)
 function LDown()
     gpio.write(pin1, gpio.LOW)
     gpio.write(pin2, gpio.HIGH)
-    print("LDOWN")
 end
 
 function LUp()
     gpio.write(pin1,gpio.HIGH)
     gpio.write(pin2,gpio.LOW)
-    print("LUP")
 end
 
 function RDown()
     gpio.write(pin3,gpio.HIGH)
     gpio.write(pin4,gpio.LOW)
-    print("RDOWN")
 end
 
 function RUp()
     gpio.write(pin3,gpio.LOW)
     gpio.write(pin4,gpio.HIGH)
-    print("RUP")
 end
 
 function Stop()
@@ -41,27 +37,30 @@ function Stop()
     gpio.write(pin2,gpio.LOW)
     gpio.write(pin3,gpio.LOW)
     gpio.write(pin4,gpio.LOW)
-    print("STOP")
 end
 
 function Up()
     LUp()
     RUp()
+    print("Up")
 end
 
 function Down()
     LDown()
     RDown()
+    print("Down")    
 end
 
 function Left()
     LDown()
     RUp()
+    print("Left")    
 end
 
 function Right()
     LUp()
     RDown()
+    print("Right")    
 end
 
 --RUp()
@@ -72,6 +71,7 @@ function setwifi()
     wifi.setmode(wifi.STATION)
     wifi.sta.config("Wfhome","15980936465") -- Replace these two args with your own network
     ip, nm, gw=wifi.sta.getip()
+    print()
     print("\nIP Info:\nIP Address: "..ip.."")
 end
 
@@ -80,6 +80,10 @@ function setTcpServer()
     srv:listen(80,function(conn)
       conn:on("receive",function(conn,payload)
         print(payload)
+        if payload == 'C' then
+            conn:close()
+            print('close')
+        end        
         if payload == 'L' then
             Left()
         end
