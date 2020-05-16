@@ -12,4 +12,9 @@ function mDebug.turnLight(sig)
     tmr.delay(1000 * 1000)
 end
 
+function mDebug.blink()
+    mDebug.turnLight(true)
+    mDebug.turnLight(false)
+end
+
 return mDebug
