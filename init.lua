@@ -66,9 +66,6 @@ function Right()
 end
 
 function setwifi()
---    print('wait begin')
---    tmr.delay(3000 * US_TO_MS)
---    print('wait end')
     wifi.setmode(wifi.STATION)
     wifi.sta.config("Wfhome","15980936465") -- Replace these two args with your own network
     ip=wifi.sta.getip()
