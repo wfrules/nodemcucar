@@ -1,5 +1,5 @@
 ledswitch=0
-pin=1
+pin=4
 gpio.mode(pin,gpio.OUTPUT)
 tmr.alarm(0,500,1,function()
     if ledswitch==0 then 
