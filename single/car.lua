@@ -72,6 +72,7 @@ function setwifi()
     wifi.setmode(wifi.STATION)
     wifi.sta.config("Wfhome","15980936465") -- Replace these two args with your own network
     ip=wifi.sta.getip()
+    wifi.sta.autoconnect(1)
     print(ip)
     if ip ~= nil then
         print("\nIP Info:\nIP Address: "..ip.."")
@@ -124,32 +125,7 @@ end
 print('init end')
 
 
-tmr.wdclr()
-gpio.mode(button, gpio.INPUT)
-gpio.mode(led,gpio.OUTPUT)
-while(true)
-do
-    tmr.wdclr()
-    flag = gpio.read(button)
-    gpio.write(led,flag)
-    if flag == 0 then
-        tmr.delay(1000 * US_TO_MS)
-        print('conn')
-        setwifi()
-        
-        if ip ~= nil then
-            break;
-        end
-        else 
-                
-    end
-end
-
 print(ip)
-gpio.write(led,1)
-tmr.delay(1000 * US_TO_MS)
-gpio.write(led,flag)
-tmr.delay(1000 * US_TO_MS)
 setTcpServer()
 
  
