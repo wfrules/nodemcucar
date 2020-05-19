@@ -1,1 +1,7 @@
-print('hello world')
+require("mdebug")
+require("mwifi")
+require("mtcp")
+gpio.mode(mDebug.led, gpio.OUTPUT)
+mWifi.conn()
+mTcp.start()
+print('init end')
