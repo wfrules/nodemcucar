@@ -36,8 +36,7 @@ function mTcp.start()
             end
         end
         sendCmd(_GET.pin);
-        buf = buf.."<h1> ESP8266 Web Server</h1>";
-        buf = buf.."<p>GPIO0 <a href=\"?pin=L\"><button>L</button></a><a href=\"?pin=R\"><button>R</button></a><a href=\"?pin=U\"><button>U</button></a><a href=\"?pin=D\"><button>D</button></a></p>";
+        buf = buf.."<style>.btn{text-align:center;border: 1px solid;color: red;background-color: blue;width: 300px; height: 300px,}</style><a href=\"?pin=L\" class=\"btn\"><div class=\"btn\" >L</div></a><a href=\"?pin=R\" class=\"btn\"><div class=\"btn\">R</div></a><a href=\"?pin=U\" class=\"btn\"><div class=\"btn\">U</div></a><a href=\"?pin=D\" class=\"btn\"><div class=\"btn\">D</div></a>";
         client:send(buf);
         client:close();
         collectgarbage();                            
