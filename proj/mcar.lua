@@ -3,6 +3,8 @@ mCar.pin1=5
 mCar.pin2=6
 mCar.pin3=7
 mCar.pin4=8
+mCar.prop = {}
+mCar.prop.keep = false
 
 function mCar.init()
     gpio.mode(mCar.pin1,gpio.OUTPUT)
