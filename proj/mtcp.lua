@@ -8,7 +8,21 @@ function checkDelay()
     end
 end
 
-function sendCmd(payload)      
+function jsonHandle(payload)
+    sJson = string.gsub(payload, 'j_', '');
+    objJson = cjson.decode(sJson)
+    mCar.prop.ena = objJson.pwma;
+    mCar.prop.enb = objJson.pwmb;
+    mCar.prop.keep = objJson.keep;
+    mCar.synPwm();
+end
+
+function sendCmd(payload)   
+    idx = string.find(payload, 'j_')
+    if idx == 1 then
+       jsonHandle(payload) 
+    end
+   
     if payload == 'L' then
         mCar.Left()  
         checkDelay()    

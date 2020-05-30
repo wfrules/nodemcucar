@@ -1,12 +1,26 @@
 mCar = {}
+mCar.pinena=3
+mCar.pinenb=4
 mCar.pin1=5
 mCar.pin2=6
 mCar.pin3=7
 mCar.pin4=8
 mCar.prop = {}
 mCar.prop.keep = false
+mCar.prop.ena = 1000
+mCar.prop.enb = 1000
 
-function mCar.init()
+function mCar.synPwm()
+    pwm.setup(mCar.pinena, 100, 0)
+    pwm.start(mCar.pinena)
+    pwm.setduty(mCar.pinena, mCar.prop.ena)
+    pwm.setup(mCar.pinenb, 100, 0)
+    pwm.start(mCar.pinenb)
+    pwm.setduty(mCar.pinenb, mCar.prop.enb)
+end
+
+function mCar.init()  
+    mCar.synPwm()
     gpio.mode(mCar.pin1,gpio.OUTPUT)
     gpio.mode(mCar.pin2,gpio.OUTPUT)
     gpio.mode(mCar.pin3,gpio.OUTPUT)
